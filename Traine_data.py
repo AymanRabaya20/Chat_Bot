@@ -11,7 +11,7 @@ chatbot = ChatBot('Omar')
 trainer = ListTrainer(chatbot)
 
 trainer.train([
-    "مرحبا!",
+    "مرحبا",
     "اهلا",
     "السلام عليكم",
     "عليكم السلام",
