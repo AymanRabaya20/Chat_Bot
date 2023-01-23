@@ -13,10 +13,13 @@ count = 0
 
 def speck(text):
     date_string = datetime.now().strftime("%d%m%Y%H%M%S")
-    converted_audio = gTTS(text=text, lang="ar")
+    converted_audio = gTTS(text=text, lang='ar')
     filename = "voice" + date_string + ".mp3"
     converted_audio.save(filename)
     playsound.playsound(filename)
+
+
+exit_conditions = ("مع السلامة", "وداعا", "انصراف","الى اللقاء","تشاو","استودعناك بخير","باي","شكرا لك","يعطيك العافية")
 
 
 while True:
@@ -26,12 +29,16 @@ while True:
         try:
             text = recognizer.recognize_google(audio, language="ar", show_all=True)
         except Exception as e:
-            speck("انا لم افهم. اعد ما قلت")
-        if text:
-            print(text['alternative'][0]['transcript'])
-            # Get a response to the input text 'I would like to book a flight.'
-            response = bot.get_response(text['alternative'][0]['transcript'])
-            print("Bot: ", response)
-            speck(str(response))
+            playsound.playsound("Network_connection_lost.mp3")
+            continue
+        if text is not None:
+            google_text = text['alternative'][0]['transcript']
+            print(google_text)
+            response = bot.get_response(google_text)
+            if google_text in exit_conditions:
+                break
+            else:
+                print("Bot: ", response)
+                speck(str(response))
 
 
